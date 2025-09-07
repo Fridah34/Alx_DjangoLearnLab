@@ -2,14 +2,14 @@
 \`\`\`python
 from bookshelf.models import Book
 
-book = Book.objects.create(title=\"1984\", author=\"George Orwell\", publication_year=1949)
+book = Book.objects.create(title="1984", author="George Orwell", publication_year=1949)
 book
 # <Book: 1984 by George Orwell (1949)>
 \`\`\`
 
 ## 2. Retrieve
 \`\`\`python
-books = Book.objects.all()
+books = Book.objects.get(title="1984")
 books
 # <QuerySet [<Book: 1984 by George Orwell (1949)>]>
 
@@ -24,8 +24,8 @@ book.publication_year
 
 ## 3. Update
 \`\`\`python
-book = Book.objects.first()
-book.title = \"Nineteen Eighty-Four\"
+book = Book.objects.get(title="1984")
+book.title = "Nineteen Eighty-Four"
 book.save()
 book
 # <Book: Nineteen Eighty-Four by George Orwell (1949)>
@@ -33,7 +33,7 @@ book
 
 ## 4. Delete
 \`\`\`python
-book = Book.objects.first()
+book = Book.objects.get(title="Nineteen Eighty-Four")
 book.delete()
 
 Book.objects.all()

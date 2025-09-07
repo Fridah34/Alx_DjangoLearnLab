@@ -1,8 +1,8 @@
 from bookshelf.models import Book
 
 # Get the book and update its title
-book = Book.objects.first()
-book.title = \"Nineteen Eighty-Four\"
+book = Book.objects.get(title="1984")
+book.title = "Nineteen Eighty-Four"
 book.save()
 
 book

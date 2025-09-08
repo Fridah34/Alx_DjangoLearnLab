@@ -5,6 +5,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import user_passes_test
 from .models import Book
 from .models import Library
+from .models import UserProfile
 
 
 # --- Function-based View ---

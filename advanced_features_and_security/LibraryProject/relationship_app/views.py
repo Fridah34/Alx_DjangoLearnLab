@@ -1,3 +1,13 @@
+#"""
+#Permissions & Groups Setup:
+#- Book model has custom permissions: can_view, can_create, can_edit, can_delete.
+#- Groups configured:
+   # * Admins: All permissions
+  #  * Editors: can_create, can_edit, can_view
+ #   * Viewers: can_view only
+#- Views enforce permissions using @permission_required decorators.
+#"""
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -114,3 +124,8 @@ def delete_book(request, book_id):
         book.delete()
         return redirect('list_books')
     return render(request, 'relationship_app/confirm_delete.html', {'book': book})
+
+@permission_required('relationship_app.can_view', raise_exception=True)
+def list_books(request):
+    books = Book.objects.all()
+    return render(request, "relationship_app/list_books.html", {"books": books})

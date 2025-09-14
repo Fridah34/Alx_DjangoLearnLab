@@ -155,3 +155,6 @@ SESSION_COOKIE_SECURE = True
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
 CSP_SCRIPT_SRC = ("'self'",)
+
+# Secure proxy header for HTTPS detection
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

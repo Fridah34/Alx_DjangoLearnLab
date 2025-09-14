@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import permission_required
 from .models import Book
 from .forms import BookForm
 
+def book_list(request):
+    books = Book.objects.all()
+    return render(request, 'relationship_app/book_list.html', {'books': books})
+
+
 @permission_required('bookshelf.can_create', raise_exception=True)
 def add_book(request):
     if request.method == 'POST':

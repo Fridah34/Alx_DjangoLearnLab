@@ -113,7 +113,7 @@ USE_I18N = True
 USE_TZ = True
 
 #Tell Django to use the custom user model
-AUTH_USER_MODEL = 'relationship_app.CustomUser'  
+AUTH_USER_MODEL = 'bookshelf.CustomUser'  
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

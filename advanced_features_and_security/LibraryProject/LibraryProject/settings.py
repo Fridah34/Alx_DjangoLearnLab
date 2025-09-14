@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$q9vx+z-ayq2*fp8b8^kex=2mc)ap1i&(-ol8!t3@b2^(q=#%7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -132,3 +132,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'      # where to go after login
 LOGOUT_REDIRECT_URL = '/login/'  # where to go after logout
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Content Security Policy (CSP) — requires django-csp if you install it
+# Add this middleware only if django-csp is installed
+# MIDDLEWARE += ['csp.middleware.CSPMiddleware']
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'",)

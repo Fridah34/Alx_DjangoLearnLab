@@ -2,6 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 from .forms import BookForm
+from django.db.models import Q
+
+def search_books(request):
+    query = request.GET.get("q", "")
+    books = Book.objects.filter(
+        Q(title__icontains=query) | Q(author__icontains=query)
+    )
+    return render(request, "bookshelf/book_list.html", {"books": books})
+
 
 def book_list(request):
     books = Book.objects.all()

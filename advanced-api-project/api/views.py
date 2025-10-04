@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Author, Book
-from django_filters import rest_framework
 from .serializers import AuthorSerializer, BookSerializer
 
 # Create your views here.
@@ -10,56 +10,49 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    
-# ListView – List all books
+
+
+# ListView – List all books (with filtering, searching, and ordering)
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # anyone can view list
-    
-     # Enable filtering, searching, and ordering
-    filter_backends = [rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-    # Fields available for filtering
-    filterset_fields = ['title', 'author', 'publication_year']
-
-    # Fields available for searching
-    search_fields = ['title', 'author']
-
-    # Fields available for ordering
-    ordering_fields = ['title', 'publication_year']
-
-    # Default ordering
-    ordering = ['title']
-
+    # ✅ Add these lines for filtering, searching, and ordering
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['title', 'author', 'publication_year']   # Filtering fields
+    search_fields = ['title', 'author__name']                     # Search by title or author name
+    ordering_fields = ['title', 'publication_year']               # Allow ordering by title or year
+    ordering = ['title']                                          # Default ordering
 
 
 # DetailView – Retrieve a single book by ID
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]  # anyone can view details
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 # CreateView – Add a new book
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]  # only logged in users can create
+    permission_classes = [IsAuthenticated]
 
 
 # UpdateView – Modify an existing book
 class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]  # only logged in users can update
+    permission_classes = [IsAuthenticated]
 
 
 # DeleteView – Remove a book
 class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAuthenticated]  # only logged in users can delete
+    permission_classes = [IsAuthenticated]

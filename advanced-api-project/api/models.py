@@ -8,6 +8,7 @@ class Author(models.Model):
     - related_name 'books' used so we can access author.books.all() in serializers.
     """
     name = models.CharField(max_length=200)
+    biography = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name

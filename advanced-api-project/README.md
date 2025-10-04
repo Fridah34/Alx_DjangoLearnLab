@@ -38,3 +38,18 @@ This API supports advanced query capabilities on the `/books/` endpoint.
 
 #### Filtering
 Filter books by title, author, or publication year:
+
+## 🧪 API Testing
+
+All API tests are located in `api/test_views.py`.  
+They cover:
+- CRUD operations for the `Book` model
+- Filtering, Searching, and Ordering
+- Permission and authentication checks
+
+### Running Tests
+
+Use Django’s test runner:
+
+```bash
+python manage.py test api

@@ -31,3 +31,10 @@ We used DRF’s **generic class-based views** to perform Create, Read, Update, a
       if self.request.method == 'GET':
           return [permissions.AllowAny()]
       return [permissions.IsAuthenticated()]
+
+### Filtering, Searching, and Ordering
+
+This API supports advanced query capabilities on the `/books/` endpoint.
+
+#### Filtering
+Filter books by title, author, or publication year:

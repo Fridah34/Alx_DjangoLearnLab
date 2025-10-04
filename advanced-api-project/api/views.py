@@ -12,26 +12,36 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     
-#list all books or create a new book
-class BookListCreateView(generics.ListCreateAPIView):
+# ListView – List all books
+class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    
-    #Allow unauthenticated GET but restrict create
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return[permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]
+    permission_classes = [permissions.AllowAny]  # anyone can view list
 
-# Retrieve, update or delete a specific book
-class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+
+# DetailView – Retrieve a single book by ID
+class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    # Allow unauthenticated GET but restrict update/delete
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]   
+    permission_classes = [permissions.AllowAny]  # anyone can view details
 
 
+# CreateView – Add a new book
+class BookCreateView(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # only logged in users can create
+
+
+# UpdateView – Modify an existing book
+class BookUpdateView(generics.UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # only logged in users can update
+
+
+# DeleteView – Remove a book
+class BookDeleteView(generics.DestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]  # only logged in users can delete

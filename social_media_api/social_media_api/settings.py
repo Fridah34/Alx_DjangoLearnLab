@@ -26,8 +26,9 @@ SECRET_KEY = 'django-insecure-1dpurgu--&_tmzfvo1*-^p8oe(ow82^qv5@aguq0$g%^05$5mx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['social_media_api.onrender.com', 'localhost']
+ALLOWED_HOSTS = ['social-media-api.onrender.com', 'localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = ['https://social-media-api.onrender.com']
 
 # Application definition
 
@@ -80,11 +81,14 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
+
+DATABASES['default']['PORT'] = os.environ.get('PORT', '')
 
 
 # Password validation
@@ -132,6 +136,10 @@ SESSION_COOKIE_SECURE = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
@@ -151,11 +159,4 @@ REST_FRAMEWORK = {
     ],
 }
 
-import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600,
-        ssl_require=False
-    )
-}
+

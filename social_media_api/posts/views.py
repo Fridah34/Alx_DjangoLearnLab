@@ -12,7 +12,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.select_related('author').prefetch_related('comments').all()
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthorOrReadOnly]
     pagination_class = StandardResultsSetPagination
@@ -25,7 +25,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.select_related('post', 'author').all()
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthorOrReadOnly]
     pagination_class = StandardResultsSetPagination

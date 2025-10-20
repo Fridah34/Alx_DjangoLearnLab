@@ -9,6 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.response import Response
+from accounts.models import CustomUser
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
@@ -43,7 +45,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_feed(request):
-    user = request.user
+    user = get_object_or_404(CustomUser, id=request.user.id)
     following_users = user.following.all()
     posts = Post.objects.filter(Q(author__in=following_users) | Q(author=user)).order_by('-created_at')
     serializer = PostSerializer(posts, many=True)

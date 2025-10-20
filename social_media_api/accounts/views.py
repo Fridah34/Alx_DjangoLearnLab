@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from .models import CustomUser
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
+from notifications.utils import create_notification
+from django.contrib.contenttypes.models import ContentType
 
 User = get_user_model()
 
@@ -50,7 +52,12 @@ def follow_user(request, user_id):
     if user_to_follow ==request.user:
        return Response({"detail": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
     request.user.following.add(user_to_follow)
+    
+    # create notification for follower
+    create_notification(recipient=user_to_follow, actor=request.user, verb='started following you', target=request.user)
+    
     return Response({"detail": f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])

@@ -66,6 +66,58 @@ Example Response
   "updated_at": "2025-10-19T21:40:12Z"
 } 
 
+# Notifications endpoints
+POST /api/posts/<int:pk>/like/ — like a post (requires authentication).
+
+POST /api/posts/<int:pk>/unlike/ — unlike a post (requires authentication).
+
+GET /api/notifications/ — list notifications for current user.
+
+POST /api/notifications/<int:pk>/read/ — mark single notification as read.
+
+POST /api/notifications/read-all/ — mark all notifications as read.
+
+POST http://127.0.0.1:8000/api/posts/5/like/
+Headers:
+
+Authorization: Token <token>
+Content-Type: application/json
+
+
+Response (201):
+
+{
+  "id": 12,
+  "post": 5,
+  "user": "fridah",
+  "created_at": "2025-10-20T15:00:00Z"
+}
+
+B. Unlike a post
+
+POST http://127.0.0.1:8000/api/posts/5/unlike/
+Response (200):
+
+{"detail":"Unliked successfully."}
+
+C. Get notifications
+
+GET http://127.0.0.1:8000/api/notifications/
+Response:
+
+[
+  {
+    "id": 7,
+    "recipient": 2,
+    "actor": "john",
+    "verb": "liked your post",
+    "target": "Post: 5",
+    "timestamp": "2025-10-20T15:10:00Z",
+    "read": false
+  },
+  ...
+]
+
 ## Setup
 ```bash
 pip install django djangorestframework

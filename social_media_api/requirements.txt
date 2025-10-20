@@ -2,6 +2,7 @@ asgiref==3.9.1
 blinker==1.9.0
 click==8.1.7
 colorama==0.4.6
+dj-database-url==3.0.1
 Django==5.2.5
 django-csp==4.0
 django-filter==25.1

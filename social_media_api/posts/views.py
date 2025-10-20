@@ -54,7 +54,7 @@ def user_feed(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def like_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+    post = generics.get_object_or_404(Post, pk=pk)
     user = request.user
 
     # prevent liking own post? usually allowed; we'll allow but still create notification only if different user
@@ -64,7 +64,13 @@ def like_post(request, pk):
 
     # create notification for post author if not self
     if post.author != user:
-         create_notification(recipient=post.author, actor=user, verb='liked your post', target=post)
+        from notifications.models import Notification
+        Notification.objects.create(
+             recipient=post.author, 
+             actor=user,
+             verb='liked your post', 
+             target=post
+             )
         
     serializer = LikeSerializer(like)
     return Response(serializer.data, status=201)
@@ -73,12 +79,10 @@ def like_post(request, pk):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    user = request.user
-    
-    like = Like.objects.filter(user=user, post=post).first()
+    post = generics.get_object_or_404(Post, pk=pk)
+    like = Like.objects.filter(user=request.user, post=post).first()
     if not like:
-       return Response({"detail": "You have not liked this post."}, status=400)
+       return Response({"detail": "You have not liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
     like.delete()
-    return Response({"detail": "Unliked successfully."}, status=200)
+    return Response({"detail": "Unliked successfully."}, status=status.HTTP_200_OK)

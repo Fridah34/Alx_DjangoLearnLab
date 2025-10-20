@@ -1,11 +1,10 @@
 # posts/views.py
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, generics
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from .models import Post, Comment
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Q
-from rest_framework.permissions import IsAuthenticated
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.response import Response
@@ -43,7 +42,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
         
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([permissions.IsAuthenticated])
 def user_feed(request):
     user = get_object_or_404(CustomUser, id=request.user.id)
     following_users = user.following.all()

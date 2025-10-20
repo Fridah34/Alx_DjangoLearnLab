@@ -58,7 +58,7 @@ def like_post(request, pk):
     user = request.user
 
     # prevent liking own post? usually allowed; we'll allow but still create notification only if different user
-    like, created = Like.objects.get_or_create(user=user, post=post)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
     if not created:
         return Response({'detail': 'Post already liked.'}, status=status.HTTP_400_BAD_REQUEST)
 

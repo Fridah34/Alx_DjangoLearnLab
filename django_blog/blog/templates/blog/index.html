@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My Django Blog</title>
+</head>
+<body>
+  <h1>My Django Blog</h1>
+  {% if posts %}
+    <ul>
+      {% for p in posts %}
+        <li><strong>{{ p.title }}</strong> — by {{ p.author.username }} on {{ p.published_date }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No posts yet.</p>
+  {% endif %}
+</body>
+</html>

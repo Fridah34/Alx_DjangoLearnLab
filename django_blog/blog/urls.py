@@ -3,7 +3,9 @@ from . import views
 from .views import (
     PostListView, PostDetailView,
     PostCreateView, PostUpdateView, PostDeleteView,
-    login_view, logout_view, register_view, profile_view
+    CommentCreateView, CommentUpdateView, CommentDeleteView,
+    login_view, logout_view, register_view, profile_view,
+    PostByTagListView, SearchResultsView,  # ✅ fixed import
 )
 
 urlpatterns = [
@@ -12,20 +14,20 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register_view, name='register'),
     path('profile/', views.profile_view, name='profile'),
-    
-     # Blog post routes
+
+    # Blog post routes
     path('', views.PostListView.as_view(), name='post-list'),
     path('post/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
     path('post/new/', views.PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
-    
-     # Comment routes
+
+    # Comment routes
     path('post/<int:pk>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
-    
-    # Tag and search
-    path('tags/<str:tag_name>/', TagPostListView.as_view(), name='tag-posts'),
+
+    # ✅ Tag and Search functionality
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='tag-posts'),
     path('search/', SearchResultsView.as_view(), name='search'),
 ]

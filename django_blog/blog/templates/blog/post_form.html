@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>New Post</title></head>
+<body>
+  <h2>{% if form.instance.pk %}Edit Post{% else %}Create New Post{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'post-list' %}">Back</a>
+</body>
+</html>

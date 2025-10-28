@@ -1,6 +1,7 @@
 from django import forms
 from .models import Post
 from .models import Comment, Tag
+from taggit.forms import TagWidget
 
 class PostForm(forms.ModelForm):
     tags = forms.CharField(required=False, help_text="Enter tags separated by commas")
